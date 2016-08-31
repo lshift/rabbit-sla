@@ -1,5 +1,5 @@
 #!/bin/bash
-MONITORING_INTERVAL=10
+MONITORING_INTERVAL=15
 MAX_MESSAGE_WAIT_TIME=120
 ADMIN_EMAIL=
 
@@ -13,9 +13,10 @@ do
         else
             echo "Queue $QNAME: head message timestamp `date -d @$QHEAD_MESSAGE_TIMESTAMP`"
             if (( `date +%s` > QHEAD_MESSAGE_TIMESTAMP + MAX_MESSAGE_WAIT_TIME )); then
-                echo "===> Alert: Queue $QNAME: message waiting since `date -d @$QHEAD_MESSAGE_TIMESTAMP`" 
+                MSG = "Alert: Queue $QNAME: message waiting since `date -d @$QHEAD_MESSAGE_TIMESTAMP`" 
+                echo "Alert: $MSG"
                 if [ -n "$ADMIN_EMAIL" ]; then
-                    mail -s "RabbitMQ Consumer Alert" $ADMIN_EMAIL
+                    mail -s "RabbitMQ Consumer Alert: $MSG" $ADMIN_EMAIL
                 fi
             fi
         fi
