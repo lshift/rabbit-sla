@@ -13,8 +13,8 @@ do
         else
             echo "Queue $QNAME: head message timestamp `date -d @$QHEAD_MESSAGE_TIMESTAMP`"
             if (( `date +%s` > QHEAD_MESSAGE_TIMESTAMP + MAX_MESSAGE_WAIT_TIME )); then
-                MSG = "Alert: Queue $QNAME: message waiting since `date -d @$QHEAD_MESSAGE_TIMESTAMP`" 
-                echo "Alert: $MSG"
+                MSG="Queue $QNAME: message waiting since `date -d @$QHEAD_MESSAGE_TIMESTAMP`" 
+                echo "===> Alert: $MSG"
                 if [ -n "$ADMIN_EMAIL" ]; then
                     mail -s "RabbitMQ Consumer Alert: $MSG" $ADMIN_EMAIL
                 fi
